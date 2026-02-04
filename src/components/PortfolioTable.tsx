@@ -15,7 +15,7 @@ import SectorGroup from './SectorGroup';
 export default function PortfolioTable() {
   const [portfolioData, setPortfolioData] = useState<StockWithLiveData[]>([]);
   const [sectorGroups, setSectorGroups] = useState<SectorSummary[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   // Fetch live market data
@@ -92,8 +92,32 @@ export default function PortfolioTable() {
     setSectorGroups(sectors);
   };
 
-  // Initial fetch and setup interval for auto-refresh
+  // Initialize with static data immediately
   useEffect(() => {
+    // Show static data first for fast initial render
+    const totalInvestment = getTotalInvestment(portfolioHoldings);
+    const initialData: StockWithLiveData[] = portfolioHoldings.map(stock => {
+      const investment = calculateInvestment(stock.purchasePrice, stock.quantity);
+      const presentValue = calculatePresentValue(stock.purchasePrice, stock.quantity);
+      const gainLoss = calculateGainLoss(presentValue, investment);
+      const portfolioPercent = calculatePortfolioPercent(investment, totalInvestment);
+
+      return {
+        ...stock,
+        investment,
+        portfolioPercent,
+        cmp: stock.purchasePrice,
+        presentValue,
+        gainLoss,
+        peRatio: 'Loading...',
+        latestEarnings: 'Loading...'
+      };
+    });
+
+    setPortfolioData(initialData);
+    groupBySector(initialData);
+
+    // Then fetch live data
     fetchMarketData();
     
     // Refresh every 15 seconds
@@ -109,13 +133,7 @@ export default function PortfolioTable() {
   const totalGainLoss = portfolioData.reduce((sum, s) => sum + s.gainLoss, 0);
   const totalGainLossPercent = totalInvestment > 0 ? (totalGainLoss / totalInvestment) * 100 : 0;
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-xl text-gray-600">Loading portfolio data...</div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="space-y-6">
@@ -133,7 +151,7 @@ export default function PortfolioTable() {
           </div>
           <div>
             <p className="text-sm opacity-80">Total Gain/Loss</p>
-            <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-200' : 'text-red-200'}`}>
+            <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-300' : 'text-red-300'}`}>
               ₹{totalGainLoss.toFixed(2)} ({totalGainLossPercent.toFixed(2)}%)
             </p>
           </div>

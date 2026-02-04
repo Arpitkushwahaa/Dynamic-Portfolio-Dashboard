@@ -12,13 +12,13 @@ export default function SectorGroup({ sector }: SectorGroupProps) {
 
   return (
     <div className="mb-8">
-      <div className="bg-blue-600 text-white px-4 py-3 rounded-t-lg">
+      <div className="bg-blue-700 text-white px-4 py-3 rounded-t-lg">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">{sector.sectorName}</h2>
           <div className="flex gap-6 text-sm">
             <span>Investment: ₹{sector.totalInvestment.toFixed(2)}</span>
             <span>Present Value: ₹{sector.totalPresentValue.toFixed(2)}</span>
-            <span className={isProfit ? 'text-green-200' : 'text-red-200'}>
+            <span className={isProfit ? 'text-green-300 font-semibold' : 'text-red-300 font-semibold'}>
               Gain/Loss: ₹{sector.totalGainLoss.toFixed(2)}
             </span>
           </div>
