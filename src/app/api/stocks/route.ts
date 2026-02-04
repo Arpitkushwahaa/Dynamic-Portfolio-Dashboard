@@ -15,7 +15,7 @@ interface StockData {
 // Fetch real stock data from Yahoo Finance using yahoo-finance2
 async function fetchYahooFinanceData(symbol: string): Promise<{ cmp: number; peRatio: string }> {
   try {
-    const quote = await yahooFinance.quote(symbol);
+    const quote: any = await yahooFinance.quote(symbol);
     
     const cmp = quote.regularMarketPrice || quote.currentPrice || 0;
     const peRatio = quote.trailingPE ? quote.trailingPE.toFixed(2) : 'N/A';
