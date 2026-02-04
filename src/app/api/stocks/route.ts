@@ -63,7 +63,7 @@ async function fetchGoogleFinanceData(symbol: string): Promise<{ peRatio: string
     let latestEarnings = 'N/A';
 
     // Google Finance structure - find PE ratio
-    $('div.P6K39c').each((_i: number, elem: cheerio.Element) => {
+    $('div.P6K39c').each((_i: number, elem: any) => {
       const text = $(elem).text();
       if (text.includes('PE ratio')) {
         peRatio = $(elem).next().text() || 'N/A';
