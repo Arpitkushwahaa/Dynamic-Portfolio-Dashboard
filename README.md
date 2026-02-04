@@ -81,27 +81,17 @@ The portfolio uses static JSON data representing stock holdings. Each stock incl
 
 ### Live Data Fetching
 
-**Important Note:** This application currently uses **realistic mock data** with price fluctuations for demonstration purposes.
+**Real-time Market Data:**
+- Uses `yahoo-finance2` library for authentic Yahoo Finance data
+- Fetches actual current market prices (CMP)
+- Retrieves real P/E ratios from stock fundamentals
+- Updates every 15 seconds automatically
 
-**Why Mock Data?**
-- Yahoo Finance and Google Finance actively block web scraping attempts
-- Both services don't offer free official APIs
-- Scraping results in 404 errors and is unreliable
-
-**Current Implementation:**
-- Uses predefined base prices for each stock
-- Simulates market fluctuations (±2% variation)
-- Updates every 15 seconds to demonstrate real-time capability
-- Includes realistic P/E ratios and earnings data
-
-**For Production Use:**
-Replace mock data with paid API services:
-- **Alpha Vantage** - Free tier available
-- **IEX Cloud** - Good for US markets
-- **Twelve Data** - Supports Indian markets
-- **Finnhub** - Real-time stock data
-
-The scraping code is preserved in comments for reference.
+**How it works:**
+- Backend API route calls Yahoo Finance API
+- 30-second caching to optimize performance
+- Graceful error handling with fallbacks
+- No API keys required (free service)
 
 ### Calculations
 
@@ -118,10 +108,10 @@ The dashboard automatically updates every 15 seconds using `setInterval`, ensuri
 ## Technical Challenges Addressed
 
 ### API Limitations
-- **Solution**: Implemented realistic mock data instead of unreliable scraping
-- Price fluctuations simulate real market behavior
-- Caching mechanism ready for when real APIs are integrated
-- Original scraping code preserved for educational reference
+- **Solution**: Used `yahoo-finance2` npm library for legitimate API access
+- Implements 30-second caching to optimize API calls
+- Graceful fallback handling for failed requests
+- No rate limiting issues with proper caching strategy
 
 ### Performance
 - In-memory caching reduces redundant API calls
