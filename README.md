@@ -160,4 +160,5 @@ This project is for educational purposes.
 
 ## Author
 
+"Arpit Kushwaha"
 Built as a technical assignment to demonstrate full-stack development skills.
