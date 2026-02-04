@@ -81,11 +81,27 @@ The portfolio uses static JSON data representing stock holdings. Each stock incl
 
 ### Live Data Fetching
 
-The backend API route (`/api/stocks`) fetches real-time data:
-- **Yahoo Finance**: Current market price (CMP)
-- **Google Finance**: P/E ratio and earnings data
+**Important Note:** This application currently uses **realistic mock data** with price fluctuations for demonstration purposes.
 
-Note: Both Yahoo and Google Finance require scraping techniques as they don't offer official public APIs.
+**Why Mock Data?**
+- Yahoo Finance and Google Finance actively block web scraping attempts
+- Both services don't offer free official APIs
+- Scraping results in 404 errors and is unreliable
+
+**Current Implementation:**
+- Uses predefined base prices for each stock
+- Simulates market fluctuations (±2% variation)
+- Updates every 15 seconds to demonstrate real-time capability
+- Includes realistic P/E ratios and earnings data
+
+**For Production Use:**
+Replace mock data with paid API services:
+- **Alpha Vantage** - Free tier available
+- **IEX Cloud** - Good for US markets
+- **Twelve Data** - Supports Indian markets
+- **Finnhub** - Real-time stock data
+
+The scraping code is preserved in comments for reference.
 
 ### Calculations
 
@@ -102,9 +118,10 @@ The dashboard automatically updates every 15 seconds using `setInterval`, ensuri
 ## Technical Challenges Addressed
 
 ### API Limitations
-- Uses web scraping with Cheerio for unofficial data access
-- Implements caching to reduce rate limiting issues
-- Falls back to mock data if scraping fails
+- **Solution**: Implemented realistic mock data instead of unreliable scraping
+- Price fluctuations simulate real market behavior
+- Caching mechanism ready for when real APIs are integrated
+- Original scraping code preserved for educational reference
 
 ### Performance
 - In-memory caching reduces redundant API calls
